@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: ab67b23536943ca41931f5ecd0be63fa
+guid: 4c29b1ed06e46684da021afed28b5f56
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - argollaPrefab: {instanceID: 0}
-  - finishCanvas: {instanceID: 0}
-  - scoreText: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

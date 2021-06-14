@@ -3,7 +3,13 @@ guid: 437bb1a5d733cfa458a550424397d19b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - argolla: {instanceID: 0}
+  - metal: {instanceID: 0}
+  - cement: {instanceID: 0}
+  - brick: {instanceID: 0}
+  - wood: {instanceID: 0}
+  - linea: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

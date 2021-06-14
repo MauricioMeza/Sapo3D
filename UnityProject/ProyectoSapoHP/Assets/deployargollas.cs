@@ -22,6 +22,7 @@ public class deployargollas : MonoBehaviour
         finishCanvas.SetActive(false);
         scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
         finished = false;
+        GameObject a = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
     }
 
     // Update is called once per frame
@@ -43,7 +44,7 @@ public class deployargollas : MonoBehaviour
             scoreTextMesh.text = scorecolide.score.ToString();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("SampleScene");      
         }

@@ -101,7 +101,7 @@ public class argollathrow : MonoBehaviour
             float dx = f * t * vectorApuntar.x;
             float dy = (vectorApuntar.y * t * f) - (g * t*t / 2) ;
 
-            Vector3 pos = new Vector3(p0.x + dx, p0.y + dy, p0.z + dz);
+            Vector3 pos = new Vector3(p0.x + dx, p0.y + dy, p0.z + dz - 0.05f);
             puntosSim[i] = pos;
         }
 

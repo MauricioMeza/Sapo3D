@@ -32,6 +32,7 @@ public class scorecolide : MonoBehaviour
         {
             score += individualScore;
             textObject.text = score.ToString();
+            col.gameObject.GetComponent<argollathrow>().spawnNewArgolla();
             Destroy(col.gameObject);
             huecoSrc.Play();
         }

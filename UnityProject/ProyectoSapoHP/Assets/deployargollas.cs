@@ -11,6 +11,7 @@ public class deployargollas : MonoBehaviour
     public GameObject scoreText;
 
     public static int count;
+    public int final = 7;
     
     private TextMeshProUGUI scoreTextMesh;
     private bool finished;
@@ -22,19 +23,15 @@ public class deployargollas : MonoBehaviour
         finishCanvas.SetActive(false);
         scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
         finished = false;
-        GameObject a = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
+        spawnArgolla();
+        
     }
 
     // Update is called once per frame
-    // Spawns new Argolla after MouseUp
+    //Checks if all argollas have been thrown and shows end game screen
     void Update()
     {
-        if (Input.GetMouseButtonUp(0) && count < 9)
-        {
-            GameObject a = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
-            count++;
-        }
-        else if (Input.GetMouseButtonUp(0) && count == 9)
+        if (count > final)
         {
             finishGame();
         }
@@ -47,6 +44,21 @@ public class deployargollas : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("SampleScene");      
+        }
+    }
+
+    // Spawns new Argolla
+    public void spawnArgolla()
+    {
+        if (count < final)
+        {
+            GameObject a = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
+            count++;
+            print(count);
+        }
+        else 
+        {
+            finishGame();
         }
     }
 

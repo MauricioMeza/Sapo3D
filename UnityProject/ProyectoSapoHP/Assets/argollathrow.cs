@@ -10,6 +10,9 @@ public class argollathrow : MonoBehaviour
     private Rigidbody argollaRb;
     private AudioSource argollaSrc;
     private bool lanzado;
+    public bool detenido;
+    private bool finalizado;
+    private float airTime;
     
     public AudioClip metal;
     public AudioClip cement;
@@ -28,6 +31,8 @@ public class argollathrow : MonoBehaviour
         camara = GameObject.Find("Main Camera");
         spawnPoint = GameObject.Find("SpawnPoint");
         lanzado = false;
+        detenido = false;
+        airTime = 0;
         argolla.transform.SetParent(camara.transform);
         argollaRb = argolla.GetComponent<Rigidbody>();
         argollaSrc = argolla.GetComponent<AudioSource>();
@@ -41,16 +46,47 @@ public class argollathrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!lanzado)
+        //If argolla hasnt been thrown calculate the line;
+        if (!lanzado)
         {
             Vector3[] vectorApuntar = vectorCalc();
             float fuerza = 10;
             simulateArgolla(vectorApuntar[1], fuerza);
+            
+            //If press button, throw argolla
             if (Input.GetMouseButtonDown(0))
             {
                 shootArgolla(vectorApuntar[0], fuerza);
             }
-        }       
+        }
+        
+        if(lanzado && !detenido)
+        {
+            //If argolla has been thrown check the speed to see if its still moving to spawn new argolla
+            float vel = argollaRb.velocity.magnitude;
+            airTime += Time.deltaTime;
+            if (vel < 0.1 && airTime > 0.1)
+            {
+                spawnNewArgolla();
+            }
+        }
+    }
+
+    //Deparent the Argolla and give it initial force
+    private void shootArgolla(Vector3 vectorApuntar, float fuerza)
+    {
+        lanzado = true;
+        argolla.transform.parent = null;
+        argollaRb.useGravity = true;
+        argollaRb.AddRelativeForce(vectorApuntar * fuerza, ForceMode.Impulse);
+    }
+
+    //Call spawn point spawnArgolla method
+    public void spawnNewArgolla() 
+    {
+        detenido = true;
+        airTime = 0;
+        spawnPoint.GetComponent<deployargollas>().spawnArgolla();
     }
 
     //Caculate the vector of shooting from current camera position
@@ -75,23 +111,11 @@ public class argollathrow : MonoBehaviour
         return vectorList;
     }
 
-    //Deparent the Argolla and give it initial force
-    private void shootArgolla(Vector3 vectorApuntar, float fuerza)
-    {
-        lanzado = true;
-        argolla.transform.parent = null;
-        argollaRb.useGravity = true;
-        argollaRb.AddRelativeForce(vectorApuntar * fuerza, ForceMode.Impulse);
-    }
-
     //Calculate parabolic movement of the Argolla
     private void simulateArgolla(Vector3 vectorApuntar, float f)
     {
         p0 = argolla.transform.position;
         puntosSim[0] = p0;
-        vectorApuntar = vectorApuntar;
-
-        print(vectorApuntar);
 
         float t = 0;
         for (int i = 1; i < puntosSim.Length; i++)
@@ -110,9 +134,6 @@ public class argollathrow : MonoBehaviour
         {
             result += puntosSim[i].ToString() + ", ";
         }
-
-        //print(p0);
-        //print(result);
 
         spawnPoint.GetComponent<linePaint>().LinePaint(puntosSim);
     }

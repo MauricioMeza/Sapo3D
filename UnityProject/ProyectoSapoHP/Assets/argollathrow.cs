@@ -57,6 +57,7 @@ public class argollathrow : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 shootArgolla(vectorApuntar[0], fuerza);
+
             }
         }
         
@@ -75,6 +76,7 @@ public class argollathrow : MonoBehaviour
     //Deparent the Argolla and give it initial force
     private void shootArgolla(Vector3 vectorApuntar, float fuerza)
     {
+        camara.GetComponent<mouselook>().changeCameraToFollow(argolla);
         lanzado = true;
         argolla.transform.parent = null;
         argollaRb.useGravity = true;
@@ -84,6 +86,7 @@ public class argollathrow : MonoBehaviour
     //Call spawn point spawnArgolla method
     public void spawnNewArgolla() 
     {
+        camara.GetComponent<mouselook>().changeCameraToMouse();
         detenido = true;
         airTime = 0;
         spawnPoint.GetComponent<deployargollas>().spawnArgolla();

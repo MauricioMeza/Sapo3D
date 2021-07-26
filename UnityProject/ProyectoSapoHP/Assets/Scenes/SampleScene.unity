@@ -1407,6 +1407,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1493,6 +1494,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSens: 1
+  playerControl: 0
+  argolla: {fileID: 0}
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2e0ec0dd0acb64b9f0ad1ea36f627a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1152202341
 GameObject:
   m_ObjectHideFlags: 0
@@ -2144,6 +2159,7 @@ MonoBehaviour:
     type: 3}
   finishCanvas: {fileID: 1281109187}
   scoreText: {fileID: 62292503}
+  final: 7
 --- !u!114 &1526496979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4076,7 +4092,7 @@ CapsuleCollider:
   m_Radius: 0.00026488537
   m_Height: 0.001441363
   m_Direction: 2
-  m_Center: {x: 0.00088483, y: 0.0013331961, z: -0.0008472073}
+  m_Center: {x: 0.0009, y: 0.0013331961, z: -0.0008472073}
 --- !u!136 &4188380630401371273
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4086,11 +4102,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 4188380630401371271}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.00026488537
   m_Height: 0.001441363
   m_Direction: 2
-  m_Center: {x: -0.0007998483, y: 0.0013331961, z: -0.0008472073}
+  m_Center: {x: -0.0009, y: 0.0013331961, z: -0.0008472073}
 --- !u!136 &4188380630401371274
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4145,7 +4161,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.0018905548, y: 0.0018313507, z: 0.00044944393}
-  m_Center: {x: -0.000036493493, y: 0.0005, z: -0.0015271691}
+  m_Center: {x: -0.000036493493, y: 0.0005, z: -0.0017}
 --- !u!136 &4188380630401371278
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -6,21 +6,45 @@ public class mouselook : MonoBehaviour
 {
 
     public float mouseSens;
+    public bool playerControl;
+    public GameObject argolla;
+    private bool zoom;
     Vector2 looking;
 
     float cameraY;
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerControl = true;
+        zoom = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        getMouseInput();
+        //Selection of Camera Mode
+        if (playerControl)
+        {
+            getMouseInput();
+            look();
+        }
+        else 
+        {
+            cameraFollow();
+        }
+
+        //Selecion of Zoom
+        if (zoom)
+        {
+            Camera.main.fieldOfView = 25;
+        }
+        else 
+        {
+            Camera.main.fieldOfView = 42;
+        }
+        
         Cursor.lockState = CursorLockMode.Locked;
-        look();
+        
     }
 
     //Get inputs from mouse for camera rotations and zoom
@@ -38,17 +62,36 @@ public class mouselook : MonoBehaviour
         //Zoom when right mouse button
         if (Input.GetMouseButton(1))
         {
-            Camera.main.fieldOfView = 20;
+            zoom = true;  
         }
         else
         {
-            Camera.main.fieldOfView = 42;
+            zoom = false;
         }
     }
 
     //Rotate from looking vector
-    void look()
+    private void look()
     {
         transform.eulerAngles = (Vector2)looking * mouseSens;
+    }
+
+    private void cameraFollow()
+    {
+        transform.LookAt(argolla.transform);
+    }
+
+
+    public void changeCameraToFollow(GameObject argollaObj)
+    {
+        zoom = true;
+        argolla = argollaObj;
+        playerControl = false;
+    }
+
+    public void changeCameraToMouse()
+    {
+        zoom = false;
+        playerControl = true;
     }
 }

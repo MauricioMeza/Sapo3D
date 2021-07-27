@@ -36,7 +36,7 @@ public class mouselook : MonoBehaviour
         //Selecion of Zoom
         if (zoom)
         {
-            Camera.main.fieldOfView = 25;
+            Camera.main.fieldOfView = 30;
         }
         else 
         {
@@ -84,14 +84,20 @@ public class mouselook : MonoBehaviour
 
     public void changeCameraToFollow(GameObject argollaObj)
     {
+        StartCoroutine(follow(argollaObj));   
+    }
+    IEnumerator follow(GameObject argollaObj)
+    {
+        yield return new WaitForSeconds(0.12f);
         zoom = true;
         argolla = argollaObj;
         playerControl = false;
     }
 
+
     public void changeCameraToMouse()
     {
         zoom = false;
-        playerControl = true;
+        playerControl = true;    
     }
 }

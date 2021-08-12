@@ -13,6 +13,7 @@ public class scorecolide : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Initialize score, score text and audio for soce entrance
         score = 0;
         textObject = GameObject.Find("TextScore").GetComponent<TextMesh>();
         textObject.text = score.ToString();
@@ -28,11 +29,17 @@ public class scorecolide : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
+
         if(col.gameObject.name == "Argolla" || col.gameObject.name == "Argolla(Clone)") 
         {
+            GameObject argolla = col.gameObject;
             score += individualScore;
             textObject.text = score.ToString();
-            col.gameObject.GetComponent<argollathrow>().spawnNewArgolla();
+            //In Case an argolla enters bcause of a rebound
+            if (!argolla.GetComponent<argollathrow>().detenido)
+            {
+                argolla.GetComponent<argollathrow>().spawnNewArgolla();
+            }
             Destroy(col.gameObject);
             huecoSrc.Play();
         }

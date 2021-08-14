@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Handling of mouselook movement and camera movement
 public class mouselook : MonoBehaviour
 {
 
@@ -10,30 +11,35 @@ public class mouselook : MonoBehaviour
     public GameObject argolla;
     private bool zoom;
     Vector2 looking;
-
     float cameraY;
-    // Start is called before the first frame update
+
+
     void Start()
     {
+        //Controls start in mouselook player control
         playerControl = true;
         zoom = false;
     }
 
-    // Update is called once per frame
+
+
     void Update()
     {
-        //Selection of Camera Mode
+        //--Selection of Camera Mode
         if (playerControl)
         {
+            //Camera From mouse input
             getMouseInput();
-            look();
+            transform.eulerAngles = (Vector2)looking * mouseSens;
         }
         else 
         {
-            cameraFollow();
+            //Camera Follows the Argolla
+            transform.LookAt(argolla.transform);
         }
 
-        //Selecion of Zoom
+
+        //--Selecion of Zoom
         if (zoom)
         {
             Camera.main.fieldOfView = 30;
@@ -43,13 +49,15 @@ public class mouselook : MonoBehaviour
             Camera.main.fieldOfView = 42;
         }
         
+        //Makes sure cursor is locked
         Cursor.lockState = CursorLockMode.Locked;
         
     }
 
-    //Get inputs from mouse for camera rotations and zoom
+    //----Get inputs from mouse for camera rotations and zoom
     void getMouseInput()
     {
+        //--X,Y axis of mouse movement in the frame are added to a normalized Vector2
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
@@ -59,7 +67,8 @@ public class mouselook : MonoBehaviour
         looking.y = Mathf.Clamp(looking.y, -20, 20);
         looking.x = Mathf.Clamp(looking.x, -20, 40);
 
-        //Zoom when right mouse button
+
+        //--Zoom when right mouse button
         if (Input.GetMouseButton(1))
         {
             zoom = true;  
@@ -70,18 +79,8 @@ public class mouselook : MonoBehaviour
         }
     }
 
-    //Rotate from looking vector
-    private void look()
-    {
-        transform.eulerAngles = (Vector2)looking * mouseSens;
-    }
-
-    private void cameraFollow()
-    {
-        transform.LookAt(argolla.transform);
-    }
-
-
+    
+    //----Change to Camera follow and Zoom in with a slight delay (Called when Argolla is thrown) 
     public void changeCameraToFollow(GameObject argollaObj)
     {
         StartCoroutine(follow(argollaObj));   
@@ -94,11 +93,11 @@ public class mouselook : MonoBehaviour
         playerControl = false;
     }
 
-
+    //----Give Player Control and Zoom Out (Called when Argolla Stops)
     public void changeCameraToMouse()
     {
         zoom = false;
-        playerControl = true;    
+        playerControl = true;
     }
 }
 

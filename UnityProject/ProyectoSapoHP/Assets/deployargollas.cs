@@ -4,57 +4,69 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+//-----Handles the deployment and count of Argollas----
 public class deployargollas : MonoBehaviour
 {
     public GameObject argollaPrefab;
     public GameObject finishCanvas;
     public GameObject scoreText;
+    public GameObject tablero;
 
     public static int count;
     public int final = 7;
+    private GameObject argollaInstancia;
     
     private TextMeshProUGUI scoreTextMesh;
+    private TextMeshProUGUI scoreTextMesh2;
+    private tableroleaderboard tablerolead;
     private bool finished;
 
-    // Start is called before the first frame update
+
+
     void Start()
     {
+        //--Initially no argollas have been thrown and we spawn the first--
         count = 0;
-        finishCanvas.SetActive(false);
-        scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
-        finished = false;
         spawnArgolla();
-        
+
+        finishCanvas.SetActive(false);
+        finished = false;
+
+        scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
+        tablerolead = tablero.GetComponent<tableroleaderboard>();
     }
 
-    // Update is called once per frame
-    //Checks if all argollas have been thrown and shows end game screen
+
+    //---Checks if all argollas have been thrown and shows end game screen---
     void Update()
     {
+        //--Finish game if all argollas have been thrown
         if (count > final)
         {
             finishGame();
         }
 
+        //--Shows score in text even after game is over (in case last one goes in
         if (finished)
         {
             scoreTextMesh.text = scorecolide.score.ToString();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        //--Restarts after player decides to
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("SampleScene");      
         }
     }
 
-    // Spawns new Argolla
+    //----Spawns new Argolla if the games hasnt finished
     public void spawnArgolla()
     {
         if (count < final)
         {
-            GameObject a = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
+            //Instantiates the argolla profab and counts the argolla
+            argollaInstancia = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
             count++;
-            print(count);
         }
         else 
         {
@@ -62,10 +74,21 @@ public class deployargollas : MonoBehaviour
         }
     }
 
+
+    //----Show End Game Text
     private void finishGame()
     {
         finishCanvas.SetActive(true);
         finished = true;
         scoreTextMesh.text = scorecolide.score.ToString();
+
+        int puntajeEntrada = tablerolead.puntajeData[4].pts;
+
+        if (scorecolide.score > puntajeEntrada) 
+        {
+            tablerolead.setScore("El Roco", scorecolide.score);
+        }
+
+        
     }
 }

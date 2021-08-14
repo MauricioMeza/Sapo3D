@@ -6,18 +6,7 @@ public class linePaint : MonoBehaviour
 {
     public LineRenderer linea;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //Paints the line from an array of Vector3 Points in space
     public void LinePaint(Vector3[] lineas) 
     {
         linea.positionCount = lineas.Length;

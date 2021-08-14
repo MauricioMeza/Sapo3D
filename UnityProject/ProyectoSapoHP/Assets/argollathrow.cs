@@ -114,35 +114,43 @@ public class argollathrow : MonoBehaviour
         return vectorList;
     }
 
-    //Calculate parabolic movement of the Argolla
+    //----Calculate parabolic movement of the Argolla trajectory prediction
     private void simulateArgolla(Vector3 vectorApuntar, float f)
     {
+        //Get Inital Position
         p0 = argolla.transform.position;
         puntosSim[0] = p0;
 
+        //For every point in the array calcualte its trajectotry
         float t = 0;
         for (int i = 1; i < puntosSim.Length; i++)
         {
+            //In every time step of 0.05s calculate position of X,Y,Z Vectors as Time*Velocity with Y Vector being affected by gravity 
             t = (float)i / 20.0f;
             float dz = f * t * vectorApuntar.z;
             float dx = f * t * vectorApuntar.x;
-            float dy = (vectorApuntar.y * t * f) - (g * t*t / 2) ;
+            float dy = (f * t * vectorApuntar.y) - (g * t*t / 2) ;
 
+            //Generate Vector3 For prediction of position in space
             Vector3 pos = new Vector3(p0.x + dx, p0.y + dy, p0.z + dz - 0.05f);
             puntosSim[i] = pos;
         }
 
+        //In case we want to print the prediction
+        /* 
         string result = "";
         for (int i = 0; i < puntosSim.Length; i++) 
         {
             result += puntosSim[i].ToString() + ", ";
         }
+        print(result);
+        */
 
         spawnPoint.GetComponent<linePaint>().LinePaint(puntosSim);
     }
     
 
-    //Sound handling for the argolla collision
+    //----Sound handling for the argolla collision
     void OnCollisionEnter(Collision col)
     {
         float force = argollaRb.velocity.magnitude;

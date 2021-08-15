@@ -16,6 +16,7 @@ public class tableroleaderboard : MonoBehaviour
 
     private string nombre;
     private int puntos;
+    public bool connected;
 
 
     // Start is called before the first frame update
@@ -53,13 +54,14 @@ public class tableroleaderboard : MonoBehaviour
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            connected = false;
         }
         else
         {
             //Extract JSON Data from response  
             puntajeLista = JsonUtility.FromJson<PuntajeLista>(www.downloadHandler.text);
             puntajeData = puntajeLista.data;
-
+            connected = true;
             //Set Puntajes Data on All Text
             for (int i = 0; i < puntajeData.Count; i++) 
             {

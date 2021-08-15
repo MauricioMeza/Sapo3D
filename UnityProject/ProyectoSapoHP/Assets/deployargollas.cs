@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 //-----Handles the deployment and count of Argollas----
@@ -10,6 +11,9 @@ public class deployargollas : MonoBehaviour
     public GameObject argollaPrefab;
     public GameObject finishCanvas;
     public GameObject scoreText;
+    public GameObject scoreTextMsg;
+    public GameObject scoreCongrats;
+    public GameObject scoreNameInput;
     public GameObject tablero;
 
     public static int count;
@@ -17,7 +21,8 @@ public class deployargollas : MonoBehaviour
     private GameObject argollaInstancia;
     
     private TextMeshProUGUI scoreTextMesh;
-    private TextMeshProUGUI scoreTextMesh2;
+    private TextMeshProUGUI scoreTextMeshMsg;
+    private InputField inputField;
     private tableroleaderboard tablerolead;
     private bool finished;
 
@@ -32,7 +37,11 @@ public class deployargollas : MonoBehaviour
         finishCanvas.SetActive(false);
         finished = false;
 
+        scoreCongrats.SetActive(false);
+        scoreNameInput.SetActive(false);
         scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
+        scoreTextMeshMsg = scoreTextMsg.GetComponent<TextMeshProUGUI>();
+        inputField = scoreNameInput.GetComponent<InputField>();
         tablerolead = tablero.GetComponent<tableroleaderboard>();
     }
 
@@ -50,11 +59,17 @@ public class deployargollas : MonoBehaviour
         if (finished)
         {
             scoreTextMesh.text = scorecolide.score.ToString();
+            inputField.Select();
         }
 
         //--Restarts after player decides to
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            //If name is Written send Post Request
+            if (inputField.text != "") 
+            {
+                tablerolead.setScore(inputField.text, scorecolide.score);
+            }
             SceneManager.LoadScene("SampleScene");      
         }
     }
@@ -81,14 +96,18 @@ public class deployargollas : MonoBehaviour
         finishCanvas.SetActive(true);
         finished = true;
         scoreTextMesh.text = scorecolide.score.ToString();
-
-        int puntajeEntrada = tablerolead.puntajeData[4].pts;
-
-        if (scorecolide.score > puntajeEntrada) 
-        {
-            tablerolead.setScore("El Roco", scorecolide.score);
-        }
-
         
+        //--If there is a REST connection check if puntaje gets into leaderboard
+        if (tablerolead.connected)
+        {
+            int puntajeEntrada = tablerolead.puntajeData[4].pts;
+            if (scorecolide.score > puntajeEntrada)
+            {
+                //SetUp UI for leaderboard POST request
+                scoreCongrats.SetActive(true);
+                scoreNameInput.SetActive(true);
+                scoreTextMeshMsg.text = "Escribe tu nombre y presiona Enter";
+            }
+        }
     }
 }

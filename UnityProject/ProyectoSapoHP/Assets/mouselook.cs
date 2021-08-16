@@ -17,8 +17,15 @@ public class mouselook : MonoBehaviour
     void Start()
     {
         //Controls start in mouselook player control
+        init();
+         
+    }
+    public void init() 
+    {
         playerControl = true;
         zoom = false;
+        looking.x = 10;
+        looking.y = 0;
     }
 
 

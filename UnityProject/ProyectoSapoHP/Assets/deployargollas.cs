@@ -15,34 +15,41 @@ public class deployargollas : MonoBehaviour
     public GameObject scoreCongrats;
     public GameObject scoreNameInput;
     public GameObject tablero;
+    public GameObject camera;
+    public GameObject argollasThrown;
 
     public static int count;
     public int final = 7;
     private GameObject argollaInstancia;
+    private List<GameObject> listaArgollas = new List<GameObject>();
     
     private TextMeshProUGUI scoreTextMesh;
     private TextMeshProUGUI scoreTextMeshMsg;
     private InputField inputField;
     private tableroleaderboard tablerolead;
+    private mouselook mouse;
     private bool finished;
 
 
-
+    
     void Start()
     {
         //--Initially no argollas have been thrown and we spawn the first--
-        count = 0;
-        spawnArgolla();
-
-        finishCanvas.SetActive(false);
-        finished = false;
-
-        scoreCongrats.SetActive(false);
-        scoreNameInput.SetActive(false);
+        init();
         scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
         scoreTextMeshMsg = scoreTextMsg.GetComponent<TextMeshProUGUI>();
         inputField = scoreNameInput.GetComponent<InputField>();
         tablerolead = tablero.GetComponent<tableroleaderboard>();
+        mouse = camera.GetComponent<mouselook>();
+    }
+    public void init()
+    {
+        count = 0;
+        spawnArgolla();
+        finishCanvas.SetActive(false);
+        scoreCongrats.SetActive(false);
+        scoreNameInput.SetActive(false);
+        finished = false;
     }
 
 
@@ -70,7 +77,20 @@ public class deployargollas : MonoBehaviour
             {
                 tablerolead.setScore(inputField.text, scorecolide.score);
             }
-            SceneManager.LoadScene("SampleScene");      
+
+            //Initialize all veriables and constants to game reset and destroy all argollas currently in game
+            if (!finished)
+            {
+                Destroy(argollaInstancia);
+            }
+            foreach (Transform child in argollasThrown.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+            init();
+            scorecolide.init();
+            mouse.init();
+            
         }
     }
 
@@ -80,7 +100,7 @@ public class deployargollas : MonoBehaviour
         if (count < final)
         {
             //Instantiates the argolla profab and counts the argolla
-            argollaInstancia = Instantiate(argollaPrefab, transform.position, transform.rotation) as GameObject;
+            argollaInstancia = Instantiate<GameObject>(argollaPrefab, transform.position, transform.rotation);
             count++;
         }
         else 

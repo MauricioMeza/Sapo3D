@@ -58,4 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+dockerComands.txt
 node_modules
+.env

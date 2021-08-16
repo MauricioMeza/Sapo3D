@@ -20,6 +20,7 @@ public class tableroleaderboard : MonoBehaviour
 
 
     // Start is called before the first frame update
+
     void Start()
     {
         //Link Text Gameobjects with ists Text Components
@@ -48,7 +49,7 @@ public class tableroleaderboard : MonoBehaviour
     //GET HTTP request
     IEnumerator GetScore() 
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://127.0.1:3000/score");
+        UnityWebRequest www = UnityWebRequest.Get("http://174.129.21.152/score");
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -77,7 +78,7 @@ public class tableroleaderboard : MonoBehaviour
         Puntaje ptj = new Puntaje();
         ptj.name = nombre;
         ptj.pts = puntos;
-        UnityWebRequest www = UnityWebRequest.Put("http://127.0.1:3000/addScore", JsonUtility.ToJson(ptj));
+        UnityWebRequest www = UnityWebRequest.Put("http://174.129.21.152/addScore", JsonUtility.ToJson(ptj));
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
@@ -90,6 +91,7 @@ public class tableroleaderboard : MonoBehaviour
             //Extract JSON Data from response
             puntajeLista = JsonUtility.FromJson<PuntajeLista>(www.downloadHandler.text);
             puntajeData = puntajeLista.data;
+            print(puntajeData);
 
             //Set Puntajes Data on All Text
             for (int i = 0; i < puntajeData.Count; i++)

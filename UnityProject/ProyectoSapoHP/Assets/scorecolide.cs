@@ -9,18 +9,21 @@ public class scorecolide : MonoBehaviour
     private AudioSource huecoSrc; 
     public int individualScore;
     public static int score;
-    private TextMesh textObject;
+    private static TextMesh textObject;
 
 
     //----Start is called before the first frame update
     void Start()
     {
         //--Initialize score, score text and audio for soce entrance
-        score = 0;
         textObject = GameObject.Find("TextScore").GetComponent<TextMesh>();
-        textObject.text = score.ToString();
         huecoSrc = GetComponent<AudioSource>();
-  
+        init();
+    }
+    public static void init() 
+    {
+        score = 0;
+        textObject.text = score.ToString();
     }
 
 

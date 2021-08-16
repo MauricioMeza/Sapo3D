@@ -1,12 +1,15 @@
 var express = require('express');
 const dotenv = require("dotenv");
+const cors = require('cors');
+
 dotenv.config();
 const { Score } = require("./schema");
 
-const port = 3000;
+const port = process.env.PORT;
 const DB = require("./db");
 var app = express();
 app.use(express.json());
+app.use(cors());
 
 //Initial default Scoreboard
 var scoreBoard = [{name:"---", pts:0}, {name:"---", pts:0}, {name:"---", pts:0 }, {name:"---", pts:0}, {name:"---", pts:0}];

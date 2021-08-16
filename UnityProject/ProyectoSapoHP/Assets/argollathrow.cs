@@ -7,6 +7,7 @@ public class argollathrow : MonoBehaviour
     private GameObject camara;
     private GameObject spawnPoint;
     public GameObject argolla;
+    private GameObject thrownArgollas;
     private Rigidbody argollaRb;
     private AudioSource argollaSrc;
     private bool lanzado;
@@ -30,17 +31,24 @@ public class argollathrow : MonoBehaviour
     {
         camara = GameObject.Find("Main Camera");
         spawnPoint = GameObject.Find("SpawnPoint");
+        thrownArgollas = GameObject.Find("ThrownArgollas");
+        
+        argollaRb = argolla.GetComponent<Rigidbody>();
+        argollaSrc = argolla.GetComponent<AudioSource>();
+
+        init();
+
+        m = argollaRb.mass;
+        g = -Physics.gravity.y;
+    }
+    public void init() 
+    {
         lanzado = false;
         detenido = false;
         airTime = 0;
         argolla.transform.SetParent(camara.transform);
-        argollaRb = argolla.GetComponent<Rigidbody>();
-        argollaSrc = argolla.GetComponent<AudioSource>();
         argollaRb.useGravity = false;
-
         puntosSim = new Vector3[10];
-        m = argollaRb.mass;
-        g = -Physics.gravity.y;
     }
 
     // Update is called once per frame
@@ -78,7 +86,7 @@ public class argollathrow : MonoBehaviour
     {
         camara.GetComponent<mouselook>().changeCameraToFollow(argolla);
         lanzado = true;
-        argolla.transform.parent = null;
+        argolla.transform.parent = thrownArgollas.transform;
         argollaRb.useGravity = true;
         argollaRb.AddRelativeForce(vectorApuntar * fuerza, ForceMode.Impulse);
     }

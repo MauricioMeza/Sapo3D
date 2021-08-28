@@ -1,4 +1,7 @@
 var express = require('express');
+const https = require('https');
+const path = require('path');
+const fs = require('fs');
 const dotenv = require("dotenv");
 const cors = require('cors');
 
@@ -19,7 +22,7 @@ app.get("/score", (req, res) => {
 	res.status(200).json({success:true, data: scoreBoard});
 });
 
-//POST a new High Score, sorts the scores and finally deletes lowest score
+//PUTs a new High Score, sorts the scores and finally deletes lowest score
 app.put("/addScore", (req, res) => {
 	score = req.body;
 	console.log(score);
@@ -40,6 +43,34 @@ app.put("/addScore", (req, res) => {
 	res.status(200).json({success:true, data: scoreBoard})
 })
 
+//Setup key and certificate for self-signed SSL
+const sslServer = https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'ssl_stuff', 'key.pem') ),
+  cert: fs.readFileSync(path.join(__dirname, 'ssl_stuff', 'cert.pem'))
+}, app);
+
+
+//Server Initialization
+sslServer.listen(port, () => {
+  console.log(`HTTPS Server Connected on Port: ${port}`);
+  //Take all scores from the Database and add them to the current score
+  Score.find({}, (err, scr) => {
+  if (!err) {
+        console.log(scr)
+        for (var i=0 ; i<scr.length; i++) {
+          dbScore = {name:scr[i].name, pts:scr[i].pts}
+          scoreBoard.push(dbScore);
+          scoreBoard.sort((a,b) => {return parseFloat(b.pts) - parseFloat(a.pts)});
+          scoreDeleted = scoreBoard.pop();
+        }
+    }else{
+      console.log("DB Error");
+      console.log(err); 
+    }
+  }); 
+})
+
+/*
 //Server Initialization (loading the Scores from the Database)
 app.listen(port, function() {
   console.log(`Server Connected on Port: ${port}`);
@@ -59,3 +90,4 @@ app.listen(port, function() {
   	}
   });
 });
+*/

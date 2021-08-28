@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   argolla: {fileID: 7734913058449165981}
+  detenido: 0
   metal: {fileID: 8300000, guid: aa35a6bb79fb5d340ada3c7aa31bd274, type: 3}
   cement: {fileID: 8300000, guid: 6bfa59ba1c9c94c47878045577f38f53, type: 3}
   brick: {fileID: 8300000, guid: 978de8526890fbb439ffe6d45ec34f26, type: 3}

@@ -49,7 +49,7 @@ public class tableroleaderboard : MonoBehaviour
     //GET HTTP request
     IEnumerator GetScore() 
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://174.129.21.152/score");
+        UnityWebRequest www = UnityWebRequest.Get("https://cors-anywhere.herokuapp.com/http://174.129.21.152/score");
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -78,7 +78,7 @@ public class tableroleaderboard : MonoBehaviour
         Puntaje ptj = new Puntaje();
         ptj.name = nombre;
         ptj.pts = puntos;
-        UnityWebRequest www = UnityWebRequest.Put("http://174.129.21.152/addScore", JsonUtility.ToJson(ptj));
+        UnityWebRequest www = UnityWebRequest.Put("https://cors-anywhere.herokuapp.com/http://174.129.21.152/addScore", JsonUtility.ToJson(ptj));
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 

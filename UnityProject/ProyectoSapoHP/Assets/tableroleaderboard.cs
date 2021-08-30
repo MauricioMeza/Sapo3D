@@ -49,7 +49,7 @@ public class tableroleaderboard : MonoBehaviour
     //GET HTTP request
     IEnumerator GetScore() 
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://107.23.54.45/score");
+        UnityWebRequest www = UnityWebRequest.Get("https://sapo-backend.herokuapp.com/score");
         www.certificateHandler = new SSLHandler();
         yield return www.SendWebRequest();
 
@@ -79,7 +79,7 @@ public class tableroleaderboard : MonoBehaviour
         Puntaje ptj = new Puntaje();
         ptj.name = nombre;
         ptj.pts = puntos;
-        UnityWebRequest www = UnityWebRequest.Put("https://107.23.54.45/addScore", JsonUtility.ToJson(ptj));
+        UnityWebRequest www = UnityWebRequest.Put("https://sapo-backend.herokuapp.com/addScore", JsonUtility.ToJson(ptj));
         www.certificateHandler = new SSLHandler();
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();

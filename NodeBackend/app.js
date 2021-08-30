@@ -13,6 +13,14 @@ const DB = require("./db");
 var app = express();
 app.use(express.json());
 app.use(cors());
+app.use(function (req, res, next) {
+
+  res.header('Access-Control-Allow-Origin', "https://mauriciomeza.github.io");
+  res.header('Access-Control-Allow-Headers', true);
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, PUT');
+  next();
+});
 
 //Initial default Scoreboard
 var scoreBoard = [{name:"---", pts:0}, {name:"---", pts:0}, {name:"---", pts:0 }, {name:"---", pts:0}, {name:"---", pts:0}];

@@ -17,14 +17,20 @@ public class mouselook : MonoBehaviour
     void Start()
     {
         //Controls start in mouselook player control
-        init();
+        init(true);
          
     }
-    public void init() 
+    public void init(bool initial) 
     {
+        int down = 30;
+        if (initial)
+        {
+            down = 10;
+        }
+
         playerControl = true;
         zoom = false;
-        looking.x = 10;
+        looking.x = down;
         looking.y = 0;
     }
 

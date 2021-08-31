@@ -35,12 +35,13 @@ public class deployargollas : MonoBehaviour
     void Start()
     {
         //--Initially no argollas have been thrown and we spawn the first--
+        mouse = camera.GetComponent<mouselook>();
         init();
         scoreTextMesh = scoreText.GetComponent<TextMeshProUGUI>();
         scoreTextMeshMsg = scoreTextMsg.GetComponent<TextMeshProUGUI>();
         inputField = scoreNameInput.GetComponent<InputField>();
         tablerolead = tablero.GetComponent<tableroleaderboard>();
-        mouse = camera.GetComponent<mouselook>();
+        
     }
     public void init()
     {
@@ -89,7 +90,7 @@ public class deployargollas : MonoBehaviour
             }
             init();
             scorecolide.init();
-            mouse.init();
+            mouse.init(true);
             
         }
     }
@@ -99,8 +100,10 @@ public class deployargollas : MonoBehaviour
     {
         if (count < final)
         {
+            bool startType = (count == 0);
             //Instantiates the argolla profab and counts the argolla
             argollaInstancia = Instantiate<GameObject>(argollaPrefab, transform.position, transform.rotation);
+            mouse.init(startType);
             count++;
         }
         else 
